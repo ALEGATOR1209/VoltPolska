@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VoltPolska Battery Manager</string>
+    <string name="scan_devices">Scan devices</string>
+    <string name="permission_request_desc">This app needs Bluetooth and location access to find nearby devices.</string>
+    <string name="permission_request_btn">Grant permissions</string>
+    <string name="scanner_scan_in_progress">Scan in progress…</string>
+    <string name="scanner_scan_finished">Scan finished</string>
+</resources>
