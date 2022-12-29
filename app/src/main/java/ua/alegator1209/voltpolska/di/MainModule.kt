@@ -8,7 +8,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ua.alegator1209.voltpolska.data.DeviceRepository
 import ua.alegator1209.voltpolska.data.ScanRepository
+import javax.annotation.Signed
 import javax.inject.Singleton
 
 @Module
@@ -32,4 +34,10 @@ class MainModule {
   fun provideLocationManager(
     @ApplicationContext context: Context
   ) = context.getSystemService(LocationManager::class.java)
+
+  @Provides
+  @Singleton
+  fun provideDeviceRepository(
+    @ApplicationContext context: Context
+  ) = DeviceRepository(context)
 }

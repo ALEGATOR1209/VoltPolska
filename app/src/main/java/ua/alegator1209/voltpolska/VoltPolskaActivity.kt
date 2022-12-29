@@ -86,6 +86,7 @@ class VoltPolskaActivity : ComponentActivity() {
             .setDeviceName("12V100A00460")
             .build()
 
+        println("SCAN STARTED")
         val scanner = bluetoothAdapter.bluetoothLeScanner
         scanner.startScan(listOf(filters), ScanSettings.Builder().build(), object : ScanCallback() {
             private val characteristics = mutableListOf<BluetoothGattCharacteristic>()
@@ -119,7 +120,8 @@ class VoltPolskaActivity : ComponentActivity() {
                                 services.forEach { service ->
                                     println("${service.instanceId}, ${service.uuid}, ${service.type}")
                                     characteristics += service.characteristics.filter {
-                                        it.properties and BluetoothGattCharacteristic.PROPERTY_READ != 0
+                                        it.properties and BluetoothGattCharacteristic.PROPERTY_READ != 0 ||
+                                                it.properties and BluetoothGattCharacteristic.PROPERTY_NOTIFY != 0
                                     }
                                 }
                             }
@@ -137,18 +139,8 @@ class VoltPolskaActivity : ComponentActivity() {
                         status: Int
                     ) {
                         if (status == BluetoothGatt.GATT_SUCCESS) {
-                            val array = Arrays.toString(characteristic.value)
                             println("\tCHARACTERISTIC: ${characteristic.uuid}")
-                            println("\t\t$array")
-                            println("\t\t${characteristic.getStringValue(0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT32,0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT16,0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8,0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT32,0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16,0)}")
-                            println("\t\t${characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8,0)}")
-                            println("\t\t${characteristic.getFloatValue(BluetoothGattCharacteristic.FORMAT_FLOAT,0)}")
-                            println("\t\t${characteristic.getFloatValue(BluetoothGattCharacteristic.FORMAT_SFLOAT,0)}")
+                            println("\t\t${characteristic.value.joinToString { it.toString(16) }}")
                         } else {
                             println("${characteristic.uuid} = READ FAILURE")
                         }

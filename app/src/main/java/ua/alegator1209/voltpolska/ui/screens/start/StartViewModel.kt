@@ -1,5 +1,6 @@
 package ua.alegator1209.voltpolska.ui.screens.start
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,13 +11,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
+import ua.alegator1209.voltpolska.data.DeviceRepository
 import ua.alegator1209.voltpolska.data.ScanRepository
 import javax.inject.Inject
 
 @HiltViewModel
+@SuppressLint("MissingPermission")
 class StartViewModel @Inject constructor(
   private val scanRepository: ScanRepository,
+  private val deviceRepository: DeviceRepository,
 ) : ViewModel() {
   var scanState by mutableStateOf(ScanState.NOT_STARTED)
     private set
@@ -42,12 +45,21 @@ class StartViewModel @Inject constructor(
       launch {
         scanRepository.startScan()
           .map { it.device }
-          .collect { device ->
-            devices = devices.filter { device.address != it.address } + device
-          }
+          .collect(this@StartViewModel::checkDevice)
       }.join()
 
       scanState = ScanState.FINISHED
+    }
+  }
+
+  private fun checkDevice(device: BluetoothDevice) {
+    viewModelScope.launch {
+      if (deviceRepository.isVoltPolskaDevice(device)) {
+        devices = devices
+          .filter { it.address != device.address }
+          .plus(device)
+          .sortedBy { "${it.name}__${it.address}" }
+      }
     }
   }
 
