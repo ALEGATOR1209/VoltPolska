@@ -71,3 +71,7 @@ dependencies {
 kapt {
     correctErrorTypes true
 }
+
+kotlin.sourceSets.all {
+    languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+}

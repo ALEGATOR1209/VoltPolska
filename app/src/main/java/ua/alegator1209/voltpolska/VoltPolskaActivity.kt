@@ -16,11 +16,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.runBlocking
-import ua.alegator1209.voltpolska.ui.screens.StartScreen
+import ua.alegator1209.voltpolska.ui.navigation.Navigator
 import ua.alegator1209.voltpolska.ui.theme.VoltPolskaTheme
 import java.util.*
 
@@ -31,15 +30,12 @@ class VoltPolskaActivity : ComponentActivity() {
     private var requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     private val requestMultiplePermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
 
-    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        enableBluetooth()
-
         setContent {
             VoltPolskaTheme {
-                StartScreen()
+                Navigator()
             }
         }
     }

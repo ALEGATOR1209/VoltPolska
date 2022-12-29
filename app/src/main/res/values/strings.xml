@@ -5,4 +5,8 @@
     <string name="permission_request_btn">Grant permissions</string>
     <string name="scanner_scan_in_progress">Scan in progress…</string>
     <string name="scanner_scan_finished">Scan finished</string>
+    <string name="scanner_scan_not_started">Scan not started</string>
+    <string name="scanner_device_no_name">[NO NAME]</string>
+    <string name="scanner_start_scan">Start scan</string>
+    <string name="scanner_stop_scan">Stop scan</string>
 </resources>
