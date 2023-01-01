@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ua.alegator1209.voltpolska.data.DeviceRepository
@@ -26,6 +27,21 @@ class StartViewModel @Inject constructor(
 
   var devices by mutableStateOf(listOf<BluetoothDevice>())
     private set
+
+  var connectionState by mutableStateOf(ConnectionState.NOT_CONNECTED)
+    private set
+
+  enum class ConnectionState {
+    NOT_CONNECTED,
+    IN_PROGRESS,
+    CONNECTED,
+  }
+
+  enum class ScanState {
+    NOT_STARTED,
+    IN_PROGRESS,
+    FINISHED,
+  }
 
   fun startScan() {
     devices = listOf()
@@ -45,7 +61,12 @@ class StartViewModel @Inject constructor(
       launch {
         scanRepository.startScan()
           .map { it.device }
-          .collect(this@StartViewModel::checkDevice)
+          .filter { it.name != null }
+          .collect {
+            scanRepository.stopScan()
+            checkDevice(it)
+            scanRepository.startScan()
+          }
       }.join()
 
       scanState = ScanState.FINISHED
@@ -66,5 +87,15 @@ class StartViewModel @Inject constructor(
   fun stopScan() {
     scanRepository.stopScan()
     scanState = ScanState.FINISHED
+  }
+
+  fun connectDevice(device: BluetoothDevice) {
+    stopScan()
+    connectionState = ConnectionState.IN_PROGRESS
+    viewModelScope.launch {
+      val deviceConnected = deviceRepository.connect(device)
+
+      connectionState = if (deviceConnected) ConnectionState.CONNECTED else ConnectionState.NOT_CONNECTED
+    }
   }
 }

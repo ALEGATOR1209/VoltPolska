@@ -2,11 +2,13 @@ package ua.alegator1209.voltpolska.ui.screens.start
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,7 +23,10 @@ import ua.alegator1209.voltpolska.ui.theme.VoltPolskaTheme
 
 @ExperimentalPermissionsApi
 @Composable
-fun StartScreen(viewModel: StartViewModel) {
+fun StartScreen(
+    onDeviceConnected: () -> Unit,
+    viewModel: StartViewModel
+) {
     val permissionsState = rememberMultiplePermissionsState(Permissions.Required)
 
     Scaffold(
@@ -52,14 +57,28 @@ fun StartScreen(viewModel: StartViewModel) {
                 )
             }
 
-            Scanner(
-                state = viewModel.scanState,
-                devices = viewModel.devices,
-                onStartScan = viewModel::startScan,
-                onStopScan = viewModel::stopScan,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp))
+            when (viewModel.connectionState) {
+                StartViewModel.ConnectionState.NOT_CONNECTED -> {
+                    Scanner(
+                        state = viewModel.scanState,
+                        devices = viewModel.devices,
+                        onStartScan = viewModel::startScan,
+                        onStopScan = viewModel::stopScan,
+                        onConnectDevice = viewModel::connectDevice,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                    )
+                }
+                StartViewModel.ConnectionState.IN_PROGRESS -> {
+                    CircularProgressIndicator()
+                }
+                StartViewModel.ConnectionState.CONNECTED -> {
+                    LaunchedEffect(Unit) {
+                        onDeviceConnected()
+                    }
+                }
+            }
         }
     }
 }
@@ -105,10 +124,11 @@ private fun PermissionsRequest(
 @SuppressLint("MissingPermission")
 @Composable
 fun Scanner(
-    state: ScanState,
+    state: StartViewModel.ScanState,
     devices: List<BluetoothDevice>,
     onStartScan: () -> Unit,
     onStopScan: () -> Unit,
+    onConnectDevice: (BluetoothDevice) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -117,14 +137,14 @@ fun Scanner(
     ) {
         Text(
             text = stringResource(id = when (state) {
-                ScanState.NOT_STARTED -> R.string.scanner_scan_not_started
-                ScanState.IN_PROGRESS -> R.string.scanner_scan_in_progress
-                ScanState.FINISHED -> R.string.scanner_scan_finished
+                StartViewModel.ScanState.NOT_STARTED -> R.string.scanner_scan_not_started
+                StartViewModel.ScanState.IN_PROGRESS -> R.string.scanner_scan_in_progress
+                StartViewModel.ScanState.FINISHED -> R.string.scanner_scan_finished
             }),
             style = MaterialTheme.typography.h2,
         )
 
-        if (state != ScanState.IN_PROGRESS) {
+        if (state != StartViewModel.ScanState.IN_PROGRESS) {
             Button(onClick = onStartScan) {
                 Text(text = stringResource(id = R.string.scanner_start_scan))
             }
@@ -139,9 +159,11 @@ fun Scanner(
         ) {
             for (device in devices) {
                 item(key = device.address) {
-                    Column {
+                    Column(
+                        modifier = Modifier.clickable { onConnectDevice(device) }
+                    ) {
                         Text(
-                            text = device?.name
+                            text = device.name
                                 .takeUnless { it.isNullOrBlank() }
                                 ?: stringResource(id = R.string.scanner_device_no_name),
                             style = MaterialTheme.typography.body1,

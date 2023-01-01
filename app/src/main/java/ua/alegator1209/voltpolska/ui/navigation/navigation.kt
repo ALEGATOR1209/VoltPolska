@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import ua.alegator1209.voltpolska.ui.screens.device.DeviceScreen
 import ua.alegator1209.voltpolska.ui.screens.start.StartScreen
 
 object Routes {
@@ -20,7 +21,14 @@ fun Navigator() {
 
     NavHost(navController = navController, startDestination = Routes.Start) {
         composable(Routes.Start) {
-            StartScreen(hiltViewModel())
+            StartScreen(
+                onDeviceConnected = { navController.navigate(Routes.Device) },
+                viewModel = hiltViewModel()
+            )
+        }
+
+        composable(Routes.Device) {
+            DeviceScreen(hiltViewModel())
         }
     }
 }

@@ -9,4 +9,5 @@
     <string name="scanner_device_no_name">[NO NAME]</string>
     <string name="scanner_start_scan">Start scan</string>
     <string name="scanner_stop_scan">Stop scan</string>
+    <string name="device_screen">Device</string>
 </resources>

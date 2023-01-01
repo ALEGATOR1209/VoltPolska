@@ -1,7 +1,6 @@
 package ua.alegator1209.voltpolska.data
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
@@ -34,10 +33,10 @@ class ScanRepository(
     return callbackFlow {
       listener = getListener().also(scanner::startScan)
 
-      launch(Dispatchers.IO) {
-        delay(timeout)
-        this@callbackFlow.cancel("Timeout")
-      }
+//      launch(Dispatchers.IO) {
+//        delay(timeout)
+//        this@callbackFlow.cancel("Timeout")
+//      }
 
       awaitClose { stopScan() }
     }
