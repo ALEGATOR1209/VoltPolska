@@ -212,6 +212,6 @@ class VoltPolskaActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
+//        unregisterReceiver(receiver)
     }
 }

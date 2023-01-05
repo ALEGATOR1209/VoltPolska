@@ -27,7 +27,8 @@
         <activity
             android:name=".VoltPolskaActivity"
             android:exported="true"
-            android:theme="@style/Theme.VoltPolska">
+            android:theme="@style/Theme.VoltPolska"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

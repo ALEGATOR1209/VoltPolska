@@ -15,38 +15,38 @@ import ua.alegator1209.voltpolska.R
 fun DeviceScreen(
     viewModel: DeviceViewModel,
 ) {
-    Scaffold(
-        topBar = {
-            Surface(
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier.fillMaxWidth(),
-                elevation = 8.dp
-            ) {
-                Row(
-                    Modifier.padding(8.dp)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.device_screen),
-                        style = MaterialTheme.typography.h1,
-                    )
-                }
-            }
-        }
-    ) {
-        val state = viewModel.deviceState
-
-        Column {
-            when (state) {
-                is DeviceViewModel.DeviceUiState.Data -> {
-                    Text(text = state.data.toString())
-                }
-                DeviceViewModel.DeviceUiState.Error -> {
-                    Text(text = "Error")
-                }
-                DeviceViewModel.DeviceUiState.Loading -> {
-                    CircularProgressIndicator()
-                }
-            }
-        }
-    }
+//    Scaffold(
+//        topBar = {
+//            Surface(
+//                color = MaterialTheme.colors.primary,
+//                modifier = Modifier.fillMaxWidth(),
+//                elevation = 8.dp
+//            ) {
+//                Row(
+//                    Modifier.padding(8.dp)
+//                ) {
+//                    Text(
+//                        text = stringResource(id = R.string.device_screen),
+//                        style = MaterialTheme.typography.h1,
+//                    )
+//                }
+//            }
+//        }
+//    ) {
+//        val state = viewModel.deviceState
+//
+//        Column {
+//            when (state) {
+//                is DeviceViewModel.DeviceUiState.Data -> {
+//                    Text(text = state.data.toString())
+//                }
+//                DeviceViewModel.DeviceUiState.Error -> {
+//                    Text(text = "Error")
+//                }
+//                DeviceViewModel.DeviceUiState.Loading -> {
+//                    CircularProgressIndicator()
+//                }
+//            }
+//        }
+//    }
 }

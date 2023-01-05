@@ -2,7 +2,10 @@ package ua.alegator1209.voltpolska.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val CherryPie = Color(0xFF1D0452)
+val White = Color(0xFFFFFFFF)
+val ElectricViolet = Color(0xFFBD00FF)
+val Cyan = Color(0xFF00F0FF)
+val Blue = Color(0xFF3300FF)
+val Yellow = Color(0xFFFAFF00)
+val Malachite = Color(0xFF00CB45)

@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">VoltPolska Battery Manager</string>
-    <string name="scan_devices">Scan devices</string>
-    <string name="permission_request_desc">This app needs Bluetooth and location access to find nearby devices.</string>
-    <string name="permission_request_btn">Grant permissions</string>
-    <string name="scanner_scan_in_progress">Scan in progress…</string>
-    <string name="scanner_scan_finished">Scan finished</string>
-    <string name="scanner_scan_not_started">Scan not started</string>
-    <string name="scanner_device_no_name">[NO NAME]</string>
-    <string name="scanner_start_scan">Start scan</string>
-    <string name="scanner_stop_scan">Stop scan</string>
-    <string name="device_screen">Device</string>
+    <string name="error">Error</string>
+    <string name="start_screen_title">Connect a device</string>
+    <string name="device_name_field">Device name (optional)</string>
+    <string name="search_btn">Search</string>
+    <string name="error_bluetooth_permission">The app needs Bluetooth permission to be able to locate and connect to batteries</string>
+    <string name="error_bluetooth_permission_btn">Give Bluetooth permission</string>
+    <string name="error_bluetooth_disabled">The app needs Bluetooth to connect to batteries, but the Bluetooth is disabled now</string>
+    <string name="error_bluetooth_disabled_btn">Turn Bluetooth on</string>
+    <string name="error_location_permission">The app needs access to device location to be able to start Bluetooth devices discovery</string>
+    <string name="error_location_permission_btn">Give Location permission</string>
+    <string name="error_location_disabled">The app needs access to device location to be able to start devices discovery, but location is disabled now</string>
+    <string name="error_location_disabled_btn">Enable location</string>
 </resources>
