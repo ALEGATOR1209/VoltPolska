@@ -16,13 +16,18 @@ object Routes {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun Navigator() {
+fun Navigator(
+    isBluetoothEnabled: Boolean,
+    onEnableBluetooth: () -> Unit,
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Routes.Start) {
         composable(Routes.Start) {
             StartScreen(
+                isBluetoothEnabled = isBluetoothEnabled,
                 onDeviceConnected = { navController.navigate(Routes.Device) },
+                onEnableBluetooth = onEnableBluetooth,
                 viewModel = hiltViewModel()
             )
         }

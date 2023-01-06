@@ -33,10 +33,10 @@ class ScanRepository(
     return callbackFlow {
       listener = getListener().also(scanner::startScan)
 
-//      launch(Dispatchers.IO) {
-//        delay(timeout)
-//        this@callbackFlow.cancel("Timeout")
-//      }
+      launch(Dispatchers.IO) {
+        delay(timeout)
+        this@callbackFlow.cancel("Timeout")
+      }
 
       awaitClose { stopScan() }
     }
@@ -48,6 +48,10 @@ class ScanRepository(
       scanner.stopScan(listener)
       listener = null
     }
+  }
+
+  fun enableBluetooth() {
+    adapter.enable()
   }
 
   private fun ProducerScope<ScanResult>.getListener() = object : ScanCallback() {

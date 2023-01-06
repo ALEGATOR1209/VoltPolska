@@ -4,5 +4,6 @@
 
 compiler.xml
 misc.xml
+deploymentTargetDropDown.xml
 
 inspectionProfiles/

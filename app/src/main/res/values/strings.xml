@@ -12,4 +12,6 @@
     <string name="error_location_permission_btn">Give Location permission</string>
     <string name="error_location_disabled">The app needs access to device location to be able to start devices discovery, but location is disabled now</string>
     <string name="error_location_disabled_btn">Enable location</string>
+    <string name="error_all_permissions">The app needs Bluetooth and Location permissions to be able to locate and connect to batteries</string>
+    <string name="error_all_permissions_btn">Give Bluetooth and Location permissions</string>
 </resources>

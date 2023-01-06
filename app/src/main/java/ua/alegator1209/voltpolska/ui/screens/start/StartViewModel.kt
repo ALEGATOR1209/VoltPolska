@@ -30,11 +30,13 @@ class StartViewModel @Inject constructor(
     enum class Error {
       None,
       BluetoothPermissionNeeded,
-      BluetoothDisabled,
       LocationPermissionNeeded,
+      BluetoothAndLocationPermissionNeeded,
+      BluetoothDisabled,
       LocationDisabled,
     }
   }
+
 //
 //  fun startScan() {
 //    devices = listOf()

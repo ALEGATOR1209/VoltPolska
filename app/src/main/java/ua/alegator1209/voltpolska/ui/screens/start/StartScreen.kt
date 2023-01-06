@@ -24,18 +24,43 @@ import ua.alegator1209.voltpolska.ui.theme.VoltPolskaTheme
 @Composable
 fun StartScreen(
     onDeviceConnected: () -> Unit,
+    isBluetoothEnabled: Boolean,
+    onEnableBluetooth: () -> Unit,
     viewModel: StartViewModel
 ) {
-    val permissionsState = rememberMultiplePermissionsState(Permissions.Required)
+    val bluetoothPermissions = rememberMultiplePermissionsState(Permissions.Bluetooth)
+    val locationPermissions = rememberMultiplePermissionsState(Permissions.Location)
+    val combinedPermissions = rememberMultiplePermissionsState(Permissions.Bluetooth + Permissions.Location)
+
+    val bluetoothPermissionError = bluetoothPermissions.allPermissionsGranted.let { allGranted ->
+        if (!allGranted) StartViewModel.UiState.Error.BluetoothPermissionNeeded else null
+    }
+
+    val locationPermissionError = locationPermissions.allPermissionsGranted.let { allGranted ->
+        if (!allGranted) StartViewModel.UiState.Error.LocationPermissionNeeded else null
+    }
+
+    val combinedPermissionsError = if (bluetoothPermissionError != null && locationPermissionError != null) {
+        StartViewModel.UiState.Error.BluetoothAndLocationPermissionNeeded
+    } else null
+
+    val bluetoothDisabledError = if (!isBluetoothEnabled) StartViewModel.UiState.Error.BluetoothDisabled else null
+
+    val error = combinedPermissionsError
+        ?: bluetoothPermissionError
+        ?: locationPermissionError
+        ?: bluetoothDisabledError
+        ?: viewModel.uiState.error
 
     StartScreenStateless(
-        viewModel.uiState,
+        viewModel.uiState.copy(error = error),
         onDeviceNameChange = {},
         onSearchClicked = {},
-        onEnableBluetooth = {},
+        onEnableBluetooth = onEnableBluetooth,
         onEnableLocation = {},
-        onGiveBluetoothAccess = {},
-        onGiveLocationAccess = {},
+        onGiveBluetoothAccess = bluetoothPermissions::launchMultiplePermissionRequest,
+        onGiveLocationAccess = locationPermissions::launchMultiplePermissionRequest,
+        onGiveAllPermissions = combinedPermissions::launchMultiplePermissionRequest,
     )
 }
 
@@ -48,6 +73,7 @@ private fun StartScreenStateless(
     onEnableBluetooth: () -> Unit,
     onGiveLocationAccess: () -> Unit,
     onEnableLocation: () -> Unit,
+    onGiveAllPermissions: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -108,6 +134,7 @@ private fun StartScreenStateless(
                     onGiveBluetoothAccess = onGiveBluetoothAccess,
                     onEnableLocation = onEnableLocation,
                     onEnableBluetooth = onEnableBluetooth,
+                    onGiveAllPermissions = onGiveAllPermissions,
                 )
 
                 if (uiState.isSearchInProgress) {
@@ -157,6 +184,7 @@ private fun ErrorState(
     error: StartViewModel.UiState.Error,
     onEnableBluetooth: () -> Unit,
     onEnableLocation: () -> Unit,
+    onGiveAllPermissions: () -> Unit,
     onGiveBluetoothAccess: () -> Unit,
     onGiveLocationAccess: () -> Unit,
 ) {
@@ -186,6 +214,11 @@ private fun ErrorState(
             buttonText = stringResource(id = R.string.error_location_disabled_btn),
             onButtonClick = onEnableLocation,
         )
+        StartViewModel.UiState.Error.BluetoothAndLocationPermissionNeeded -> Error(
+            message = stringResource(id = R.string.error_all_permissions),
+            buttonText = stringResource(id = R.string.error_all_permissions_btn),
+            onButtonClick = onGiveAllPermissions,
+        )
     }
 }
 
@@ -201,6 +234,7 @@ private fun StartScreenPreview() {
             onEnableLocation = {},
             onGiveBluetoothAccess = {},
             onGiveLocationAccess = {},
+            onGiveAllPermissions = {},
         )
     }
 }
@@ -217,6 +251,7 @@ private fun StartScreenPreviewWithDeviceName() {
             onEnableLocation = {},
             onGiveBluetoothAccess = {},
             onGiveLocationAccess = {},
+            onGiveAllPermissions = {},
         )
     }
 }
@@ -237,6 +272,7 @@ private fun StartScreenPreviewWithSearch() {
             onEnableLocation = {},
             onGiveBluetoothAccess = {},
             onGiveLocationAccess = {},
+            onGiveAllPermissions = {},
         )
     }
 }
@@ -253,6 +289,7 @@ private fun StartScreenPreviewWithError() {
             onEnableLocation = {},
             onGiveBluetoothAccess = {},
             onGiveLocationAccess = {},
+            onGiveAllPermissions = {},
         )
     }
 }
