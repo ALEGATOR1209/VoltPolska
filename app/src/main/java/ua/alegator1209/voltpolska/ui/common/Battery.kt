@@ -142,6 +142,12 @@ fun Battery(
   }
 }
 
+enum class BatteryStatus {
+  CHARGING,
+  STAND_BY,
+  DISCHARGING,
+}
+
 @Preview(widthDp = 320)
 @Composable
 private fun BatteryPreview() {
@@ -166,10 +172,4 @@ private fun BatteryPreview() {
       }
     }
   }
-}
-
-enum class BatteryStatus {
-  CHARGING,
-  STAND_BY,
-  DISCHARGING,
 }

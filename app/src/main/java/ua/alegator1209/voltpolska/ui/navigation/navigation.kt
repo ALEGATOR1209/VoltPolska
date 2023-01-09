@@ -19,6 +19,8 @@ object Routes {
 fun Navigator(
     isBluetoothEnabled: Boolean,
     onEnableBluetooth: () -> Unit,
+    isLocationEnabled: Boolean,
+    onEnableLocation: () -> Unit,
 ) {
     val navController = rememberNavController()
 
@@ -28,6 +30,8 @@ fun Navigator(
                 isBluetoothEnabled = isBluetoothEnabled,
                 onDeviceConnected = { navController.navigate(Routes.Device) },
                 onEnableBluetooth = onEnableBluetooth,
+                isLocationEnabled = isLocationEnabled,
+                onEnableLocation = onEnableLocation,
                 viewModel = hiltViewModel()
             )
         }

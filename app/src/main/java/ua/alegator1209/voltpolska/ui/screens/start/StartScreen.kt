@@ -26,6 +26,8 @@ fun StartScreen(
     onDeviceConnected: () -> Unit,
     isBluetoothEnabled: Boolean,
     onEnableBluetooth: () -> Unit,
+    isLocationEnabled: Boolean,
+    onEnableLocation: () -> Unit,
     viewModel: StartViewModel
 ) {
     val bluetoothPermissions = rememberMultiplePermissionsState(Permissions.Bluetooth)
@@ -46,10 +48,13 @@ fun StartScreen(
 
     val bluetoothDisabledError = if (!isBluetoothEnabled) StartViewModel.UiState.Error.BluetoothDisabled else null
 
+    val locationDisabledError = if (!isLocationEnabled) StartViewModel.UiState.Error.LocationDisabled else null
+
     val error = combinedPermissionsError
         ?: bluetoothPermissionError
         ?: locationPermissionError
         ?: bluetoothDisabledError
+        ?: locationDisabledError
         ?: viewModel.uiState.error
 
     StartScreenStateless(
@@ -57,7 +62,7 @@ fun StartScreen(
         onDeviceNameChange = {},
         onSearchClicked = {},
         onEnableBluetooth = onEnableBluetooth,
-        onEnableLocation = {},
+        onEnableLocation = onEnableLocation,
         onGiveBluetoothAccess = bluetoothPermissions::launchMultiplePermissionRequest,
         onGiveLocationAccess = locationPermissions::launchMultiplePermissionRequest,
         onGiveAllPermissions = combinedPermissions::launchMultiplePermissionRequest,
