@@ -24,6 +24,22 @@ import ua.alegator1209.voltpolska.ui.theme.VoltPolskaTheme
 class VoltPolskaActivity : ComponentActivity() {
     private var bluetoothEnabled by mutableStateOf(false)
 
+    private val isBluetoothEnabled: Boolean
+        get() = getSystemService(BluetoothManager::class.java).adapter.isEnabled
+
+    private val bluetoothStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null) return
+
+            if (BluetoothAdapter.ACTION_STATE_CHANGED == intent.action) {
+                when (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
+                    BluetoothAdapter.STATE_OFF -> bluetoothEnabled = false
+                    BluetoothAdapter.STATE_ON -> bluetoothEnabled = true
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,22 +66,6 @@ class VoltPolskaActivity : ComponentActivity() {
             startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
         } else {
             getSystemService(BluetoothManager::class.java).adapter.enable()
-        }
-    }
-
-    private val isBluetoothEnabled: Boolean
-        get() = getSystemService(BluetoothManager::class.java).adapter.isEnabled
-
-    private val bluetoothStateReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent == null) return
-
-            if (BluetoothAdapter.ACTION_STATE_CHANGED == intent.action) {
-                when (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-                    BluetoothAdapter.STATE_OFF -> bluetoothEnabled = false
-                    BluetoothAdapter.STATE_ON -> bluetoothEnabled = true
-                }
-            }
         }
     }
 }
