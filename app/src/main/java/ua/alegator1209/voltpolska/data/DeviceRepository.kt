@@ -12,8 +12,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import ua.alegator1209.voltpolska.domain.models.DeviceInfo
-import java.nio.ByteBuffer
-import java.util.UUID
+import java.util.*
 import kotlin.experimental.and
 
 private val SERVICE_UUID = UUID.fromString("0000FF00-0000-1000-8000-00805F9B34FB")
@@ -56,15 +55,6 @@ class DeviceRepository(
             status: Int
         ) {
             super.onCharacteristicWrite(gatt, characteristic, status)
-        }
-
-        override fun onCharacteristicRead(
-            gatt: BluetoothGatt,
-            characteristic: BluetoothGattCharacteristic,
-            value: ByteArray,
-            status: Int
-        ) {
-            super.onCharacteristicRead(gatt, characteristic, value, status)
         }
 
         override fun onCharacteristicChanged(
@@ -181,16 +171,16 @@ class DeviceRepository(
 //        val protectionStatus = 62..65 // TODO: decode
 
         return DeviceInfo(
+            gatt.device?.name ?: "",
             totalVoltage,
             electricCurrent,
             remainingCapacity,
             fullCapacity,
-            0,
         )
     }
 }
 
-fun List<Byte>.parseInt(): Int {
+private fun List<Byte>.parseInt(): Int {
     var res = 0
 
     forEach {
@@ -200,45 +190,4 @@ fun List<Byte>.parseInt(): Int {
     return res
 }
 
-fun List<Byte>.parseDouble(magnification: Double = 100.0) = parseInt() / magnification
-
-fun main() {
-    val input = byteArrayOf(
-        // 7B 01 20 00 61 05 35 00 00 00 FF CC
-        123, 1, 32,
-        0, 97, // RSOC
-        5, 53, // TOTAL VOLTAGE
-
-        0, 0, 0, -55,
-
-        0, -55, // MOSWD
-        0, 0, // CURRENT
-        38, 6, // CAPACITY
-
-        39, 16, 39
-    )
-
-    val RSOC = input.slice(3..4).parseInt()
-    val totalVoltage = input.slice(5..6).parseDouble()
-    val moswd = input.slice(11..12).parseDouble(10.0)
-    val electricCurrent = input.slice(13..14).parseDouble()
-    val remainingCapacity = input.slice(15..16).parseDouble()
-    val fullCapacity = input.slice(17..18).parseDouble()
-//    val nominalCapacity = input.slice(19..20).parseDouble()
-//    val xhrl = input.slice(21..22).parseDouble()
-//    val numberOfCycles = input.slice(23..24).parseInt()
-//    val equilibrumState = input.slice(25..26).parseInt().toString(2)
-//    val equilibriumStateHight = input.slice(27..28).parseInt().toString(2)
-
-    println(RSOC)
-    println(totalVoltage)
-    println(moswd)
-    println(electricCurrent)
-    println(remainingCapacity)
-    println(fullCapacity)
-//    println(nominalCapacity)
-//    println(xhrl)
-//    println(numberOfCycles)
-//    println(equilibrumState)
-//    println(equilibriumStateHight)
-}
+private fun List<Byte>.parseDouble(magnification: Double = 100.0) = parseInt() / magnification

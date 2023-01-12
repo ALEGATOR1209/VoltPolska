@@ -9,7 +9,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -64,15 +63,14 @@ fun Battery(
           cornerRadius = cornerRadius,
         )
 
-        with(chargeIconPainter) {
+        if (status != BatteryStatus.STAND_BY) with(chargeIconPainter) {
           val scale = 0.6f * size.height / intrinsicSize.height
           val iconSize = intrinsicSize * scale
           val verticalInset = (size.height - iconSize.height) / 2
 
           val colorFilter = when (status) {
-            BatteryStatus.CHARGING -> ColorFilter.tint(strokeColor)
-            BatteryStatus.STAND_BY -> ColorFilter.tint(Color.Transparent)
             BatteryStatus.DISCHARGING -> ColorFilter.tint(Red)
+            else -> ColorFilter.tint(strokeColor)
           }
 
           inset(
