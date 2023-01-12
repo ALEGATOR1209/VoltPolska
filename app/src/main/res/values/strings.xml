@@ -14,4 +14,6 @@
     <string name="error_location_disabled_btn">Enable location</string>
     <string name="error_all_permissions">The app needs Bluetooth and Location permissions to be able to locate and connect to batteries</string>
     <string name="error_all_permissions_btn">Give Bluetooth and Location permissions</string>
+    <string name="device_connect_btn">+</string>
+    <string name="device_connection_error">Device connection error</string>
 </resources>

@@ -14,6 +14,6 @@ object Permissions {
     }
 
     val Location by lazy {
-        listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+        listOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 }

@@ -18,9 +18,9 @@ import ua.alegator1209.voltpolska.ui.theme.Yellow
 @Composable
 fun Error(
     message: String,
-    buttonText: String,
-    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    buttonText: String = "",
+    onButtonClick: () -> Unit = {},
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -40,14 +40,16 @@ fun Error(
             textAlign = TextAlign.Center,
         )
 
-        TextButton(
-            onClick = onButtonClick,
-            colors = ButtonDefaults.textButtonColors(
-                contentColor = Yellow,
-                disabledContentColor = Yellow.copy(alpha = 0.5f)
-            )
-        ) {
-            Text(text = buttonText, style = MaterialTheme.typography.body1)
+        if (buttonText.isNotBlank()) {
+            TextButton(
+                onClick = onButtonClick,
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = Yellow,
+                    disabledContentColor = Yellow.copy(alpha = 0.5f)
+                )
+            ) {
+                Text(text = buttonText, style = MaterialTheme.typography.body1)
+            }
         }
     }
 }
@@ -62,6 +64,17 @@ private fun ErrorPreview() {
                 buttonText = "Enable Bluetooth",
                 onButtonClick = {}
             )
+        }
+    }
+}
+
+
+@Preview
+@Composable
+private fun ErrorPreviewWithoutButton() {
+    VoltPolskaTheme {
+        Surface {
+            Error(message = "The app needs Bluetooth to function")
         }
     }
 }

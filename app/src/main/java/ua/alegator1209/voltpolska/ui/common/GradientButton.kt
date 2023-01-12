@@ -62,7 +62,7 @@ fun GradientButton(
                     MotionEvent.ACTION_DOWN -> touched = true
                     MotionEvent.ACTION_UP -> touched = false
                 }
-                true
+                false
             },
         enabled = enabled,
     ) {
