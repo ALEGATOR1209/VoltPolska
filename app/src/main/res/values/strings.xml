@@ -14,16 +14,16 @@
     <string name="error_location_disabled_btn">Enable location</string>
     <string name="error_all_permissions">The app needs Bluetooth and Location permissions to be able to locate and connect to batteries</string>
     <string name="error_all_permissions_btn">Give Bluetooth and Location permissions</string>
-    <string name="device_connect_btn">+</string>
+    <string name="device_connect_btn" translatable="false">+</string>
     <string name="device_connection_error">Device connection error</string>
     <string name="charge_label">Battery charge</string>
     <string name="status_label">Status</string>
-    <string name="consumption_label">Consumption</string>
+    <string name="consumption_label">Power</string>
     <string name="status_stand_by">Stand by</string>
     <string name="status_charging">Charging</string>
     <string name="status_discharging">Discharging</string>
     <string name="voltage_label">Voltage</string>
     <string name="current_label">Current</string>
-    <string name="format_2_decimals">%.2f</string>
-    <string name="format_3_decimals">%.3f</string>
+    <string name="format_2_decimals" translatable="false">%.2f</string>
+    <string name="format_3_decimals" translatable="false">%.3f</string>
 </resources>

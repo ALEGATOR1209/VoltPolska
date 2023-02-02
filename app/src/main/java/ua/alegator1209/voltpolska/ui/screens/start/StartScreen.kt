@@ -107,6 +107,7 @@ private fun StartScreenStateless(
                 Divider(
                     color = MaterialTheme.colors.secondary,
                     modifier = Modifier
+                        .height(2.dp)
                         .constrainAs(divider) {
                             top.linkTo(title.bottom, margin = 8.dp)
                             end.linkTo(title.end)

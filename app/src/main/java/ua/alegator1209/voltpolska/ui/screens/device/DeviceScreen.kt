@@ -176,7 +176,7 @@ private fun MainInfo(batteryInfo: BatteryInfo) = with(batteryInfo) {
         Text(buildAnnotatedString {
             bold(stringResource(id = R.string.consumption_label) + ": ")
             value(stringResource(id = R.string.format_2_decimals, consumption))
-            append(Units.Consumption)
+            append(Units.Power)
         })
     }
 }

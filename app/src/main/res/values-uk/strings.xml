@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoltPolska Battery Manager</string>
+    <string name="error">Помилка</string>
+    <string name="start_screen_title">З\'єднатися з девайсом</string>
+    <string name="device_name_field">Ім\'я девайсу (необов\'язково)</string>
+    <string name="search_btn">Пошук</string>
+    <string name="error_bluetooth_permission">Додаток потребує дозволу використовувати Bluetooth, щоб виявляти та підключатися до акумуляторів</string>
+    <string name="error_bluetooth_permission_btn">Надати дозвіл Bluetooth</string>
+    <string name="error_bluetooth_disabled">Додаток потребує Bluetooth, щоб підключатися до акумуляторів, але Bluetooth зараз вимкнено</string>
+    <string name="error_bluetooth_disabled_btn">Увімкнути Bluetooth</string>
+    <string name="error_location_permission">Додаток потребує доступу до геолокації телефону, щоб розпочати виявлення Bluetooth-пристроїв</string>
+    <string name="error_location_permission_btn">Надати доступ до локації</string>
+    <string name="error_location_disabled">Додаток потребує доступу до геолокації телефону, щоб розпочати пошук девайсів, але локація зараз вимкнена</string>
+    <string name="error_location_disabled_btn">Увімкнути геолокацію</string>
+    <string name="error_all_permissions">Додаток потребує дозволу використовувати Bluetooth та геолокацію телефону, щоб мати змогу шукати та підключатися до девайсів</string>
+    <string name="error_all_permissions_btn">Надати дозвіл для Bluetooth і локації</string>
+    <string name="device_connection_error">Помилка під\'єднання до девайсу</string>
+    <string name="charge_label">Заряд</string>
+    <string name="status_label">Статус</string>
+    <string name="consumption_label">Потужність</string>
+    <string name="status_stand_by">Простій</string>
+    <string name="status_charging">Заряджання</string>
+    <string name="status_discharging">Розряджання</string>
+    <string name="voltage_label">Напруга</string>
+    <string name="current_label">Сила струму</string>
+</resources>

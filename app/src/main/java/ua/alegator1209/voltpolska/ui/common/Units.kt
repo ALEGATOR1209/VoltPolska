@@ -4,5 +4,5 @@ object Units {
   const val Current = "A"
   const val Voltage = "V"
   const val Capacity = "Ah"
-  const val Consumption = "Wh"
+  const val Power = "W"
 }
