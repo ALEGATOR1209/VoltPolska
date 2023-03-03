@@ -6,7 +6,7 @@ A reverse engineered app to connect to VoltPolska batteries with Bluetooth suppo
 fully for my personal purposes and just for fun. I have only one battery to test it so it's not guaranteed
 to work on other models (although you can always reach me to point on problems).
 
-Use on your own risk, I'm not responsible for app/batteries malfunctions, incorrect data, and so on and so on.
+**Use on your own risk, I'm not responsible for app/batteries malfunctions, incorrect data, and so on and so on.**
 
 ## Features
 
