@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -50,7 +51,7 @@ class StartViewModel @Inject constructor(
         timerValue = SCAN_TIMEOUT,
       )
 
-      scanJob = launch {
+      scanJob = launch(Dispatchers.Default) {
         scanRepository.startScan(uiState.deviceName)
           .map { it.device }
           .filter { it.name != null }
@@ -74,7 +75,7 @@ class StartViewModel @Inject constructor(
           }
       }
 
-      launch {
+      launch(Dispatchers.Default) {
         while (uiState.timerValue > 0) {
           delay(1000L)
 
